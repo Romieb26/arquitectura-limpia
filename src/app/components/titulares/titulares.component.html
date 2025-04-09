@@ -1,0 +1,94 @@
+<div class="titulares-container">
+    <h2 class="header-title">Gestión de Titulares</h2>
+    
+    <!-- Formulario -->
+    <div class="form-card card-shadow">
+      <div class="card-header-primary">
+        {{ isEditing ? 'Editar Titular' : 'Nuevo Titular' }}
+      </div>
+      <div class="card-body">
+        <form #titularForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre"
+                     [(ngModel)]="selectedTitular.nombre" name="nombre" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellido"
+                     [(ngModel)]="selectedTitular.apellido" name="apellido" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="dni" class="form-label">DNI</label>
+              <input type="text" class="form-control" id="dni"
+                     [(ngModel)]="selectedTitular.dni" name="dni" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="telefono"
+                     [(ngModel)]="selectedTitular.telefono" name="telefono" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="direccion"
+                   [(ngModel)]="selectedTitular.direccion" name="direccion" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-cancel"
+                    (click)="cancelEdit()" *ngIf="isEditing">Cancelar</button>
+            <button type="submit" class="btn btn-save"
+                    [disabled]="!titularForm.form.valid">
+              {{ isEditing ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Lista de titulares -->
+    <div class="list-card card-shadow">
+      <div class="card-header-primary">
+        Listado de Titulares
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DNI</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let titular of titulares">
+                <td>{{ titular.id }}</td>
+                <td>{{ titular.nombre }}</td>
+                <td>{{ titular.apellido }}</td>
+                <td>{{ titular.dni }}</td>
+                <td>{{ titular.telefono }}</td>
+                <td>{{ titular.direccion }}</td>
+                <td class="actions-cell">
+                  <button class="btn-edit" (click)="editTitular(titular)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-delete" (click)="deleteTitular(titular.id)" [disabled]="!titular?.id">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

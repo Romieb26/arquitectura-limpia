@@ -1,0 +1,126 @@
+/* Estilos para el componente Home */
+.home-container {
+  text-align: center;
+  padding: 3rem 1rem;
+  animation: fadeIn 0.8s ease-out;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.welcome-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+}
+
+.description {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.navigation-buttons a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.navigation-buttons a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.navigation-buttons a:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 25px rgba(67, 97, 238, 0.4);
+}
+
+.navigation-buttons a:hover::before {
+  opacity: 1;
+}
+
+.navigation-buttons a::after {
+  content: '';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.navigation-buttons a:first-child::after {
+  content: '\f1b9'; /* Ícono de coche */
+}
+
+.navigation-buttons a:last-child::after {
+  content: '\f007'; /* Ícono de usuario */
+}
+
+.navigation-buttons a span {
+  position: relative;
+  z-index: 2;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 2rem;
+  }
+  
+  .navigation-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navigation-buttons a {
+    width: 100%;
+    max-width: 100%;
+  }
+}

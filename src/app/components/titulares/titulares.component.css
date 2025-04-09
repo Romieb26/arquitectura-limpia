@@ -1,0 +1,214 @@
+/* Estilos generales */
+.management-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header-title {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* Tarjetas */
+  .card-shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: none;
+  }
+  
+  .card-header-primary {
+    background-color: #3498db;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px 8px 0 0 !important;
+    font-weight: 500;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  /* Formulario */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #34495e;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Tabla */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .data-table th {
+    background-color: #f8f9fa;
+    color: #34495e;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    color: #2c3e50;
+  }
+  
+  .data-table tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .actions-cell {
+    white-space: nowrap;
+  }
+  
+  /* Botones */
+  .btn-save {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-save:hover {
+    background-color: #27ae60;
+  }
+  
+  .btn-save:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  .btn-cancel {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #c0392b;
+  }
+  
+  .btn-edit {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-edit:hover {
+    background-color: #d35400;
+  }
+  
+  .btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-delete:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .management-container {
+      padding: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .data-table th, 
+    .data-table td {
+      padding: 0.75rem;
+    }
+  }
+
+/* Estilos específicos del componente Titulares */
+.titulares-container {
+  overflow: hidden;
+}
+
+.titulares-container .header-title {
+  color: var(--primary-color);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.titulares-container .header-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}
+
+/* Animación para las filas de la tabla */
+.titulares-container .data-table tr {
+  transition: all 0.2s ease;
+}
+
+/* Efectos visuales para destacar las acciones */
+.titulares-container .btn-delete,
+.titulares-container .btn-edit {
+  opacity: 0.85;
+  transform: scale(0.9);
+}
+
+.titulares-container .data-table tr:hover .btn-delete,
+.titulares-container .data-table tr:hover .btn-edit {
+  opacity: 1;
+  transform: scale(1);
+}

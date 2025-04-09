@@ -1,0 +1,142 @@
+<div class="management-container">
+    <h2 class="header-title">Gestión de Vehículos</h2>
+  
+    <!-- Formulario -->
+    <div class="form-card card-shadow">
+      <div class="card-header-primary">
+        {{ isEditing ? 'Editar Vehículo' : 'Nuevo Vehículo' }}
+      </div>
+      <div class="card-body">
+        <form #vehiculoForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="marca" class="form-label">Marca</label>
+              <input
+                type="text"
+                class="form-control"
+                id="marca"
+                name="marca"
+                required
+                [(ngModel)]="selectedVehiculo.marca"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="modelo" class="form-label">Modelo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="modelo"
+                name="modelo"
+                required
+                [(ngModel)]="selectedVehiculo.modelo"
+              />
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="anio" class="form-label">Año</label>
+              <input
+                type="number"
+                class="form-control"
+                id="anio"
+                name="anio"
+                required
+                [(ngModel)]="selectedVehiculo.anio"
+              />
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="patente" class="form-label">Patente</label>
+              <input
+                type="text"
+                class="form-control"
+                id="patente"
+                name="patente"
+                required
+                [(ngModel)]="selectedVehiculo.patente"
+              />
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="titularId" class="form-label">Titular</label>
+            <select
+              class="form-control"
+              id="titularId"
+              name="titularId"
+              required
+              [(ngModel)]="selectedVehiculo.titularId"
+            >
+              <option value="">Seleccione un titular</option>
+              <option *ngFor="let titular of titulares" [value]="titular.id">
+                {{ titular.nombre }} {{ titular.apellido }} (DNI: {{ titular.dni }})
+              </option>
+            </select>
+          </div>
+  
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-cancel"
+              (click)="cancelEdit()"
+              *ngIf="isEditing"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn btn-save"
+              [disabled]="!vehiculoForm.form.valid"
+            >
+              {{ isEditing ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Lista de vehículos -->
+    <div class="list-card card-shadow">
+      <div class="card-header-primary">Listado de Vehículos</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Patente</th>
+                <th>Titular</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let vehiculo of vehiculos">
+                <td>{{ vehiculo.id }}</td>
+                <td>{{ vehiculo.marca }}</td>
+                <td>{{ vehiculo.modelo }}</td>
+                <td>{{ vehiculo.anio }}</td>
+                <td>{{ vehiculo.patente }}</td>
+                <td>{{ getTitularNombre(vehiculo.titularId) }}</td>
+                <td class="actions-cell">
+                  <button class="btn-edit" (click)="editVehiculo(vehiculo)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="btn-delete"
+                    (click)="deleteVehiculo(vehiculo.id)"
+                    [disabled]="!vehiculo?.id"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,59 @@
+/* Estilos específicos del componente Vehículos */
+.management-container {
+  overflow: hidden;
+}
+
+.management-container .header-title {
+  color: var(--primary-color);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.management-container .header-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}
+
+/* Estilos mejorados para el select */
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+}
+
+/* Animación para las filas de la tabla */
+.management-container .data-table tr {
+  transition: all 0.2s ease;
+}
+
+/* Efectos visuales para destacar las acciones */
+.management-container .btn-delete,
+.management-container .btn-edit {
+  opacity: 0.85;
+  transform: scale(0.9);
+}
+
+.management-container .data-table tr:hover .btn-delete,
+.management-container .data-table tr:hover .btn-edit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Estilos para resaltar el titular seleccionado */
+select.form-control option {
+  padding: 10px;
+}
+
+select.form-control option:checked {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+}
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
