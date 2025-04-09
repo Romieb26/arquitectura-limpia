@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { VehiculoService } from '../../services/vehiculo.service';
-import { TitularService } from '../../services/titular.service';
 import { Vehiculo } from '../../interfaces/vehiculo.interface';
-import { Titular } from '../../interfaces/titular.interface';
 
 @Component({
   selector: 'app-vehiculos',
@@ -15,53 +13,68 @@ import { Titular } from '../../interfaces/titular.interface';
 })
 export class VehiculosComponent implements OnInit {
   vehiculos: Vehiculo[] = [];
-  titulares: Titular[] = [];
   selectedVehiculo: Vehiculo = {} as Vehiculo;
   isEditing = false;
+  errorMessage = '';
+  isLoading = false;
 
   constructor(
-    private vehiculoService: VehiculoService,
-    private titularService: TitularService
+    private vehiculoService: VehiculoService
   ) {}
 
   ngOnInit(): void {
     this.loadVehiculos();
-    this.loadTitulares();
   }
 
   loadVehiculos(): void {
-    this.vehiculoService.getVehiculos().subscribe(
-      (data) => (this.vehiculos = data),
-      (error) => console.error(error)
-    );
-  }
-
-  loadTitulares(): void {
-    this.titularService.getTitulares().subscribe(
-      (data) => (this.titulares = data),
-      (error) => console.error(error)
-    );
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.vehiculoService.getVehiculos().subscribe({
+      next: (data) => {
+        this.vehiculos = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Error al cargar los vehículos: ' + error.message;
+        this.isLoading = false;
+        console.error('Error:', error);
+      }
+    });
   }
 
   createVehiculo(): void {
-    this.vehiculoService.createVehiculo(this.selectedVehiculo).subscribe(
-      () => {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.vehiculoService.createVehiculo(this.selectedVehiculo).subscribe({
+      next: () => {
         this.loadVehiculos();
         this.selectedVehiculo = {} as Vehiculo;
+        this.isLoading = false;
       },
-      (error) => console.error(error)
-    );
+      error: (error) => {
+        this.errorMessage = 'Error al crear el vehículo: ' + error.message;
+        this.isLoading = false;
+        console.error('Error:', error);
+      }
+    });
   }
 
   updateVehiculo(): void {
     if (this.selectedVehiculo.id) {
-      this.vehiculoService.updateVehiculo(this.selectedVehiculo.id, this.selectedVehiculo).subscribe(
-        () => {
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.vehiculoService.updateVehiculo(this.selectedVehiculo.id, this.selectedVehiculo).subscribe({
+        next: () => {
           this.loadVehiculos();
           this.cancelEdit();
+          this.isLoading = false;
         },
-        (error) => console.error(error)
-      );
+        error: (error) => {
+          this.errorMessage = 'Error al actualizar el vehículo: ' + error.message;
+          this.isLoading = false;
+          console.error('Error:', error);
+        }
+      });
     }
   }
 
@@ -73,22 +86,27 @@ export class VehiculosComponent implements OnInit {
   cancelEdit(): void {
     this.selectedVehiculo = {} as Vehiculo;
     this.isEditing = false;
+    this.errorMessage = '';
   }
 
   deleteVehiculo(id: number | undefined): void {
     if (id) {
       if (confirm('¿Está seguro de eliminar este vehículo?')) {
-        this.vehiculoService.deleteVehiculo(id).subscribe(
-          () => this.loadVehiculos(),
-          (error) => console.error(error)
-        );
+        this.isLoading = true;
+        this.errorMessage = '';
+        this.vehiculoService.deleteVehiculo(id).subscribe({
+          next: () => {
+            this.loadVehiculos();
+            this.isLoading = false;
+          },
+          error: (error) => {
+            this.errorMessage = 'Error al eliminar el vehículo: ' + error.message;
+            this.isLoading = false;
+            console.error('Error:', error);
+          }
+        });
       }
     }
-  }
-
-  getTitularNombre(titularId: number): string {
-    const titular = this.titulares.find((t) => t.id === titularId);
-    return titular ? `${titular.nombre} ${titular.apellido}` : 'N/A';
   }
 
   onSubmit(): void {

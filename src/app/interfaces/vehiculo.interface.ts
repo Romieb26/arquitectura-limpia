@@ -3,6 +3,6 @@ export interface Vehiculo {
     marca: string;
     modelo: string;
     anio: number;
-    patente: string;
-    titularId: number;
-  }
+    color: string;
+    placa: string;
+}

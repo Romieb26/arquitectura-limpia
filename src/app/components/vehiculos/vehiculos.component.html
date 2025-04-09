@@ -1,6 +1,11 @@
 <div class="management-container">
     <h2 class="header-title">Gestión de Vehículos</h2>
   
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+
     <!-- Formulario -->
     <div class="form-card card-shadow">
       <div class="card-header-primary">
@@ -18,6 +23,7 @@
                 name="marca"
                 required
                 [(ngModel)]="selectedVehiculo.marca"
+                [disabled]="isLoading"
               />
             </div>
             <div class="col-md-6 form-group">
@@ -29,6 +35,7 @@
                 name="modelo"
                 required
                 [(ngModel)]="selectedVehiculo.modelo"
+                [disabled]="isLoading"
               />
             </div>
           </div>
@@ -43,35 +50,34 @@
                 name="anio"
                 required
                 [(ngModel)]="selectedVehiculo.anio"
+                [disabled]="isLoading"
               />
             </div>
             <div class="col-md-6 form-group">
-              <label for="patente" class="form-label">Patente</label>
+              <label for="placa" class="form-label">Placa</label>
               <input
                 type="text"
                 class="form-control"
-                id="patente"
-                name="patente"
+                id="placa"
+                name="placa"
                 required
-                [(ngModel)]="selectedVehiculo.patente"
+                [(ngModel)]="selectedVehiculo.placa"
+                [disabled]="isLoading"
               />
             </div>
           </div>
   
           <div class="form-group">
-            <label for="titularId" class="form-label">Titular</label>
-            <select
+            <label for="color" class="form-label">Color</label>
+            <input
+              type="text"
               class="form-control"
-              id="titularId"
-              name="titularId"
+              id="color"
+              name="color"
               required
-              [(ngModel)]="selectedVehiculo.titularId"
-            >
-              <option value="">Seleccione un titular</option>
-              <option *ngFor="let titular of titulares" [value]="titular.id">
-                {{ titular.nombre }} {{ titular.apellido }} (DNI: {{ titular.dni }})
-              </option>
-            </select>
+              [(ngModel)]="selectedVehiculo.color"
+              [disabled]="isLoading"
+            />
           </div>
   
           <div class="form-actions">
@@ -80,14 +86,16 @@
               class="btn btn-cancel"
               (click)="cancelEdit()"
               *ngIf="isEditing"
+              [disabled]="isLoading"
             >
               Cancelar
             </button>
             <button
               type="submit"
               class="btn btn-save"
-              [disabled]="!vehiculoForm.form.valid"
+              [disabled]="!vehiculoForm.form.valid || isLoading"
             >
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
               {{ isEditing ? 'Actualizar' : 'Guardar' }}
             </button>
           </div>
@@ -99,37 +107,49 @@
     <div class="list-card card-shadow">
       <div class="card-header-primary">Listado de Vehículos</div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="data-table">
+        <div *ngIf="isLoading" class="text-center my-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+        
+        <div *ngIf="!isLoading && vehiculos.length === 0" class="alert alert-info">
+          No hay vehículos registrados.
+        </div>
+
+        <div *ngIf="!isLoading && vehiculos.length > 0" class="table-responsive">
+          <table class="table table-hover">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Año</th>
-                <th>Patente</th>
-                <th>Titular</th>
+                <th>Color</th>
+                <th>Placa</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let vehiculo of vehiculos">
-                <td>{{ vehiculo.id }}</td>
                 <td>{{ vehiculo.marca }}</td>
                 <td>{{ vehiculo.modelo }}</td>
                 <td>{{ vehiculo.anio }}</td>
-                <td>{{ vehiculo.patente }}</td>
-                <td>{{ getTitularNombre(vehiculo.titularId) }}</td>
-                <td class="actions-cell">
-                  <button class="btn-edit" (click)="editVehiculo(vehiculo)">
-                    <i class="fas fa-edit"></i>
+                <td>{{ vehiculo.color }}</td>
+                <td>{{ vehiculo.placa }}</td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-primary me-2"
+                    (click)="editVehiculo(vehiculo)"
+                    [disabled]="isLoading"
+                  >
+                    Editar
                   </button>
                   <button
-                    class="btn-delete"
+                    class="btn btn-sm btn-danger"
                     (click)="deleteVehiculo(vehiculo.id)"
-                    [disabled]="!vehiculo?.id"
+                    [disabled]="isLoading"
                   >
-                    <i class="fas fa-trash-alt"></i>
+                    Eliminar
                   </button>
                 </td>
               </tr>
