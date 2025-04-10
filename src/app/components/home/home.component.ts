@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // Lógica que quieras ejecutar cuando se cargue la página
+    
   }
 
 }

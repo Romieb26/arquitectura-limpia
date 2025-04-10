@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Vehiculo } from '../interfaces/vehiculo.interface';
-import { API_CONFIG } from './api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculoService {
-  private baseUrl = API_CONFIG.baseUrl;
+  private apiUrl = 'http://localhost:8000/vehiculos/'; // URL base para la API
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -33,36 +32,50 @@ export class VehiculoService {
 
   // Obtener todos los vehículos
   getVehiculos(): Observable<Vehiculo[]> {
-    const url = `${this.baseUrl}${API_CONFIG.vehiculosOperations.getAll}`;
-    return this.http.get<Vehiculo[]>(url, this.httpOptions)
+    return this.http.get<Vehiculo[]>(this.apiUrl, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   // Crear un nuevo vehículo
   createVehiculo(vehiculo: Vehiculo): Observable<Vehiculo> {
-    const url = `${this.baseUrl}${API_CONFIG.vehiculosOperations.create}`;
-    return this.http.post<Vehiculo>(url, vehiculo, this.httpOptions)
+    return this.http.post<Vehiculo>(this.apiUrl, vehiculo, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   // Actualizar un vehículo existente
   updateVehiculo(id: number, vehiculo: Vehiculo): Observable<Vehiculo> {
-    const url = `${this.baseUrl}${API_CONFIG.vehiculosOperations.update.replace(':id', id.toString())}`;
+    const url = `${this.apiUrl}${id}`;
     return this.http.put<Vehiculo>(url, vehiculo, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   // Eliminar un vehículo
   deleteVehiculo(id: number): Observable<void> {
-    const url = `${this.baseUrl}${API_CONFIG.vehiculosOperations.delete.replace(':id', id.toString())}`;
+    const url = `${this.apiUrl}${id}`;
     return this.http.delete<void>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   // Obtener un vehículo por ID
   getVehiculoById(id: number): Observable<Vehiculo> {
-    const url = `${this.baseUrl}${API_CONFIG.vehiculosOperations.getById.replace(':id', id.toString())}`;
+    const url = `${this.apiUrl}${id}`;
     return this.http.get<Vehiculo>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
+  }
+
+  // Buscar vehículos por diversos criterios
+  searchVehiculos(params: { [key: string]: any }): Observable<Vehiculo[]> {
+    let queryParams = new HttpParams();
+    
+    for (const key in params) {
+      if (params[key] !== null && params[key] !== undefined) {
+        queryParams = queryParams.set(key, params[key]);
+      }
+    }
+    
+    return this.http.get<Vehiculo[]>(this.apiUrl, { 
+      headers: this.httpOptions.headers, 
+      params: queryParams 
+    }).pipe(catchError(this.handleError));
   }
 }

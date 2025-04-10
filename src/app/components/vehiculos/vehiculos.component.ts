@@ -45,19 +45,22 @@ export class VehiculosComponent implements OnInit {
   createVehiculo(): void {
     this.isLoading = true;
     this.errorMessage = '';
+  
+    console.log('Enviando vehículo:', this.selectedVehiculo); // <-- útil para depuración
+  
     this.vehiculoService.createVehiculo(this.selectedVehiculo).subscribe({
       next: () => {
-        this.loadVehiculos();
-        this.selectedVehiculo = {} as Vehiculo;
+        this.loadVehiculos(); // Usamos el helper
         this.isLoading = false;
       },
       error: (error) => {
         this.errorMessage = 'Error al crear el vehículo: ' + error.message;
         this.isLoading = false;
-        console.error('Error:', error);
+        console.error('Error del backend:', error);
       }
     });
   }
+  
 
   updateVehiculo(): void {
     if (this.selectedVehiculo.id) {

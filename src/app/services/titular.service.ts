@@ -3,13 +3,12 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Titular } from '../interfaces/titular.interface';
-import { API_CONFIG } from './api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TitularService {
-  private apiUrl = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.titulares}`;
+  private apiUrl = 'http://localhost:8000/titulares/'; // URL base para la API de titulares
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
